@@ -2,8 +2,11 @@ package dicionariocomtela;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import dao.PalavraDAO;
 
 public class Dicionario {
+
+    private PalavraDAO palavraDAO = new PalavraDAO();
 
     private java.util.ArrayList<Palavra> arrayPalavras = new ArrayList();
     private int idPalavras;
@@ -12,84 +15,59 @@ public class Dicionario {
         this.idPalavras = idPalavras;
     }
 
-    public void addPalavra(Palavra x, char leitura) {
-        if (leitura != 's') {
-            x.setCodigo(this.idPalavras);
-            idPalavras++;
-        }
-        this.arrayPalavras.add(x);
+    public void addPalavra(Palavra p) {
+        
+        try {
 
-    }
-
-    public boolean validaPalavra(String nomePalavra) {
-        if (nomePalavra == null) {
-            return false;
-        }
-
-        boolean encontrou = false;
-
-        for (Palavra p : arrayPalavras) {
-
-            if (p.getPalavra().equals(nomePalavra)) {
-                encontrou = true;
+            if(palavraDAO.validarPalavra(p.getPalavra(), Integer.toString(p.getCodigo()))){
+                
+                palavraDAO.insert(p);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Palavra já está cadastrada!");
             }
+            
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
 
         }
-        return !encontrou;
+            
+        
     }
 
-    public String listaPalavras() {
-        boolean encontrou = false;
-
-        String mensagemPane = "";
-        for (Palavra p : arrayPalavras) {
-            mensagemPane += Integer.toString(p.getCodigo()) + " - " + p.getPalavra() + " - " + p.getSignificado() + "\n";
-            encontrou = true;
-        }
-
-        if (!encontrou) {
-            JOptionPane.showMessageDialog(null, "Dicionário vazio");
-        } else {
-            JOptionPane.showMessageDialog(null, mensagemPane);
-        }
-        return mensagemPane;
+//    public boolean validaPalavra(String nomePalavra) {
+//        if (nomePalavra == null) {
+//            return false;
+//        }
+//
+//        boolean encontrou = false;
+//
+//        for (Palavra p : arrayPalavras) {
+//
+//            if (p.getPalavra().equals(nomePalavra)) {
+//                encontrou = true;
+//            }
+//
+//        }
+//        return !encontrou;
+//    }
+    
+    public ArrayList<Palavra> listaPalavras(){
+        return listaPalavras("");
     }
 
-    public void listaPalavraExata(String palavraAProcurar) {
-        boolean encontrou = false;
-        String mensagemPane = "";
-        for (Palavra p : arrayPalavras) {
-
-            if (p.getPalavra().equals(palavraAProcurar)) {
-                mensagemPane += Integer.toString(p.getCodigo()) + " - " + p.getPalavra() + " - " + p.getSignificado() + "\n";
-                encontrou = true;
-            }
+    public ArrayList<Palavra> listaPalavras(String filtro) {
+        try{
+            
+        return palavraDAO.getPalavras(filtro);
+            
+        }catch(Exception e){
+            
+            JOptionPane.showMessageDialog(null, e);
+            
         }
-
-        if (!encontrou) {
-            JOptionPane.showMessageDialog(null, "A palavra '" + palavraAProcurar + "' não existe no dicionário");
-        } else {
-            JOptionPane.showMessageDialog(null, mensagemPane);
-        }
-    }
-
-    public void listaPalavraSemelhante(String palavraAProcurar) {
-        boolean encontrou = false;
-        String mensagemPane = "";
-
-        for (Palavra p : arrayPalavras) {
-            if (p.getPalavra().contains(palavraAProcurar)) {
-                mensagemPane += Integer.toString(p.getCodigo()) + " - " + p.getPalavra() + " - " + p.getSignificado() + "\n";
-
-                encontrou = true;
-            }
-        }
-
-        if (!encontrou) {
-            JOptionPane.showMessageDialog(null, "Nenhuma palavra contém '" + palavraAProcurar + "'.");
-        } else {
-            JOptionPane.showMessageDialog(null, mensagemPane);
-        }
+        return null;
     }
 
     public void alteraSignificado() {

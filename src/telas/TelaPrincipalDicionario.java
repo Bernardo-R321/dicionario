@@ -2,6 +2,9 @@ package telas;
 
 import dicionariocomtela.Dicionario;
 import dicionariocomtela.Palavra;
+import java.util.ArrayList;
+import javax.swing.table.AbstractTableModel;
+import util.ConexaoBD;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,7 +24,70 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
      */
     public TelaPrincipalDicionario() {
         initComponents();
+        carregaInformacoes();
+        setTitle("Dicionário");
     }
+    
+    private void carregaInformacoes(){
+        this.carregaInformacoes(null);
+    }
+    
+    private void carregaInformacoes(String filtro){
+         ArrayList<Palavra> palavras = dicionario.listaPalavras( filtro );
+
+        tbDicionario.setModel( new AbstractTableModel()
+        {
+            @Override
+            public String getColumnName( int column )
+            {
+                switch ( column )
+                {
+                    case 0:
+                        return "Código";
+                    case 1:
+                        return "Palavra";
+                    case 2:
+                        return "Significado";
+                    default:
+                        return "";
+                }
+            }
+
+            @Override
+            public int getColumnCount()
+            {
+                return 3;
+            }
+
+            @Override
+            public int getRowCount()
+            {
+                return palavras.size();
+            }
+
+            @Override
+            public Object getValueAt( int rowIndex, int columnIndex )
+            {
+                Palavra p = palavras.get( rowIndex );
+
+                if ( p != null )
+                {
+                    switch ( columnIndex )
+                    {
+                        case 0:
+                            return p.getCodigo();
+                        case 1:
+                            return p.getPalavra();
+                        case 2:
+                            return p.getSignificado();
+                    }
+
+                }
+
+                return "n/d";
+            }
+    });
+                }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,9 +100,12 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnConsulta = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txaConsulta = new javax.swing.JTextArea();
+        btConsultar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbDicionario = new javax.swing.JTable();
+        pnFiltro = new javax.swing.JPanel();
+        txFiltro = new javax.swing.JTextField();
+        lbFiltro = new javax.swing.JLabel();
         pnCadastro = new javax.swing.JPanel();
         txPalavra = new javax.swing.JTextField();
         lbPalavra = new javax.swing.JLabel();
@@ -51,33 +120,85 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("Consultar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btConsultar.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        btConsultar.setText("Consultar");
+        btConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btConsultarActionPerformed(evt);
             }
         });
 
-        txaConsulta.setColumns(20);
-        txaConsulta.setRows(5);
-        jScrollPane3.setViewportView(txaConsulta);
+        tbDicionario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tbDicionario);
+
+        pnFiltro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cantarell", 1, 15))); // NOI18N
+
+        txFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txFiltroActionPerformed(evt);
+            }
+        });
+
+        lbFiltro.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        lbFiltro.setText("ID ou palavra");
+
+        javax.swing.GroupLayout pnFiltroLayout = new javax.swing.GroupLayout(pnFiltro);
+        pnFiltro.setLayout(pnFiltroLayout);
+        pnFiltroLayout.setHorizontalGroup(
+            pnFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnFiltroLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txFiltro)
+                    .addGroup(pnFiltroLayout.createSequentialGroup()
+                        .addComponent(lbFiltro)
+                        .addGap(0, 30, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        pnFiltroLayout.setVerticalGroup(
+            pnFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnFiltroLayout.createSequentialGroup()
+                .addComponent(lbFiltro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout pnConsultaLayout = new javax.swing.GroupLayout(pnConsulta);
         pnConsulta.setLayout(pnConsultaLayout);
         pnConsultaLayout.setHorizontalGroup(
             pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnConsultaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+            .addGroup(pnConsultaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnConsultaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btConsultar))
+                    .addComponent(pnFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1098, Short.MAX_VALUE)
         );
         pnConsultaLayout.setVerticalGroup(
             pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnConsultaLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnConsultaLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnConsultaLayout.createSequentialGroup()
+                        .addComponent(pnFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btConsultar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -144,16 +265,18 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btSalvar))
                     .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lbSignifiado)
-                        .addComponent(lbCodigo)
-                        .addComponent(txCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCadastroLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbPalavra)
-                    .addComponent(txPalavra, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnCadastroLayout.createSequentialGroup()
+                                .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbCodigo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbPalavra)
+                                    .addComponent(txPalavra, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnCadastroLayout.setVerticalGroup(
             pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +292,7 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbSignifiado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSalvar)
@@ -197,19 +320,15 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         
         Palavra p = new Palavra(txPalavra.getText(),txaSignificado.getText());
-        dicionario.addPalavra(p, 'n');
-        
+        dicionario.addPalavra(p);
         txPalavra.setText("");
         txaSignificado.setText("");
-        
-        dicionario.listaPalavras();
-        
-        
+ 
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        txaConsulta.setText(dicionario.listaPalavras());
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
+        carregaInformacoes(txFiltro.getText());
+    }//GEN-LAST:event_btConsultarActionPerformed
 
     private void txCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txCodigoActionPerformed
         // TODO add your handling code here:
@@ -221,8 +340,13 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
+        ConexaoBD.getInstance().shutDown();
         System.exit(0);
     }//GEN-LAST:event_btSairActionPerformed
+
+    private void txFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txFiltroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,20 +385,23 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btConsultar;
     private javax.swing.JButton btSair;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCodigo;
+    private javax.swing.JLabel lbFiltro;
     private javax.swing.JLabel lbPalavra;
     private javax.swing.JLabel lbSignifiado;
     private javax.swing.JPanel pnCadastro;
     private javax.swing.JPanel pnConsulta;
+    private javax.swing.JPanel pnFiltro;
+    private javax.swing.JTable tbDicionario;
     private javax.swing.JTextField txCodigo;
+    private javax.swing.JTextField txFiltro;
     private javax.swing.JTextField txPalavra;
-    private javax.swing.JTextArea txaConsulta;
     private javax.swing.JTextArea txaSignificado;
     // End of variables declaration//GEN-END:variables
 }
