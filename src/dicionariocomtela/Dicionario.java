@@ -19,14 +19,23 @@ public class Dicionario {
         
         try {
 
-            if(palavraDAO.validarPalavra(p.getPalavra(), Integer.toString(p.getCodigo()))){
+            if(palavraDAO.validarPalavra(p.getPalavra(), Integer.toString(p.getCodigo())) && p.getCodigo() == 0){
                 
                 palavraDAO.insert(p);
                 
             }else{
+                if(p.getCodigo() != 0){
+                    
+                    palavraDAO.update(p);
+                    JOptionPane.showMessageDialog(null,"Palavra atualizada!");
+                    
+                }else{
+                    
                 JOptionPane.showMessageDialog(null, "Palavra já está cadastrada!");
+                
+                }
             }
-            
+
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e);
@@ -34,6 +43,18 @@ public class Dicionario {
         }
             
         
+    }
+    
+    public void deletarPalavra(Palavra p){
+        int escolha = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse registro?");
+        if(escolha == 0){
+            try{
+                palavraDAO.delete(p);
+                JOptionPane.showMessageDialog(null, "Palavra excluída com sucesso!");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }
 
 //    public boolean validaPalavra(String nomePalavra) {

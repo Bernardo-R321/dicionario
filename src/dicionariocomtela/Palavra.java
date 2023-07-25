@@ -18,6 +18,10 @@ public class Palavra {
         this.palavra = palavra;
         this.significado = significado;
     }
+    
+    public Palavra(int codigo) { ///Outro construtor
+        this.codigo = codigo;
+    }
 
     public String getPalavra() {
         return palavra;

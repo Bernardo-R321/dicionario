@@ -12,7 +12,7 @@ public class PalavraDAO {
     }
 
     public void update(Palavra p) throws Exception {
-        ConexaoBD.getInstance().executeUpdate("UPDATE palavras SET palavra =" + "'" + p.getPalavra() + "'" + "," + "significado =" + "'" + p.getSignificado() + "'" + " WHERE id = " + p.getCodigo());
+        ConexaoBD.getInstance().executeUpdate("UPDATE palavras SET ds_palavra =" + "'" + p.getPalavra() + "'" + "," + "ds_significado =" + "'" + p.getSignificado() + "'" + " WHERE id = " + p.getCodigo());
     }
 
     public void delete(Palavra p) throws Exception {

@@ -100,12 +100,15 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnConsulta = new javax.swing.JPanel();
-        btConsultar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbDicionario = new javax.swing.JTable();
         pnFiltro = new javax.swing.JPanel();
         txFiltro = new javax.swing.JTextField();
         lbFiltro = new javax.swing.JLabel();
+        pnAcoes = new javax.swing.JPanel();
+        btAtualizar = new javax.swing.JButton();
+        btDeletar = new javax.swing.JButton();
+        btConsultar = new javax.swing.JButton();
         pnCadastro = new javax.swing.JPanel();
         txPalavra = new javax.swing.JTextField();
         lbPalavra = new javax.swing.JLabel();
@@ -120,14 +123,6 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btConsultar.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
-        btConsultar.setText("Consultar");
-        btConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btConsultarActionPerformed(evt);
-            }
-        });
-
         tbDicionario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -139,6 +134,11 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbDicionario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDicionarioMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbDicionario);
 
         pnFiltro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cantarell", 1, 15))); // NOI18N
@@ -174,6 +174,56 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        pnAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cantarell", 1, 15))); // NOI18N
+
+        btAtualizar.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
+
+        btDeletar.setText("Deletar");
+        btDeletar.setEnabled(false);
+        btDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeletarActionPerformed(evt);
+            }
+        });
+
+        btConsultar.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        btConsultar.setText("Consultar");
+        btConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btConsultarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnAcoesLayout = new javax.swing.GroupLayout(pnAcoes);
+        pnAcoes.setLayout(pnAcoesLayout);
+        pnAcoesLayout.setHorizontalGroup(
+            pnAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnAcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        pnAcoesLayout.setVerticalGroup(
+            pnAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnAcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btAtualizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btDeletar)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pnConsultaLayout = new javax.swing.GroupLayout(pnConsulta);
         pnConsulta.setLayout(pnConsultaLayout);
         pnConsultaLayout.setHorizontalGroup(
@@ -183,10 +233,8 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnConsultaLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btConsultar))
-                    .addComponent(pnFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnConsultaLayout.setVerticalGroup(
@@ -196,8 +244,8 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
                 .addGroup(pnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnConsultaLayout.createSequentialGroup()
                         .addComponent(pnFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btConsultar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -320,9 +368,16 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         
         Palavra p = new Palavra(txPalavra.getText(),txaSignificado.getText());
+        if(txCodigo.getText().equals("")){       ///Verifica se o codigo está vazio e converte para 0 se sim
+            p.setCodigo(0);
+        }else{
+            p.setCodigo(Integer.parseInt(txCodigo.getText()));
+        }
         dicionario.addPalavra(p);
         txPalavra.setText("");
         txaSignificado.setText("");
+        txCodigo.setText("");
+        btDeletar.setEnabled(false);
  
     }//GEN-LAST:event_btSalvarActionPerformed
 
@@ -337,6 +392,8 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         txPalavra.setText("");
         txaSignificado.setText("");
+        txCodigo.setText("");
+        btDeletar.setEnabled(false);
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
@@ -347,6 +404,28 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     private void txFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txFiltroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txFiltroActionPerformed
+
+    private void tbDicionarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDicionarioMouseClicked
+            if(evt.getClickCount() == 1){
+                
+                int row = tbDicionario.getSelectedRow();
+                
+                txCodigo.setText( String.valueOf( tbDicionario.getModel().getValueAt( row, 0 ) ) );
+                txPalavra.setText( String.valueOf( tbDicionario.getModel().getValueAt( row, 1 ) ) );
+                txaSignificado.setText( String.valueOf( tbDicionario.getModel().getValueAt( row, 2 ) ) );
+                btDeletar.setEnabled(true);
+                
+            }
+    }//GEN-LAST:event_tbDicionarioMouseClicked
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        Palavra p = new Palavra(Integer.parseInt(txCodigo.getText()));
+        dicionario.deletarPalavra(p);
+    }//GEN-LAST:event_btDeletarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -384,8 +463,10 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btConsultar;
+    private javax.swing.JButton btDeletar;
     private javax.swing.JButton btSair;
     private javax.swing.JButton btSalvar;
     private javax.swing.JScrollPane jScrollPane1;
@@ -395,6 +476,7 @@ public class TelaPrincipalDicionario extends javax.swing.JFrame {
     private javax.swing.JLabel lbFiltro;
     private javax.swing.JLabel lbPalavra;
     private javax.swing.JLabel lbSignifiado;
+    private javax.swing.JPanel pnAcoes;
     private javax.swing.JPanel pnCadastro;
     private javax.swing.JPanel pnConsulta;
     private javax.swing.JPanel pnFiltro;
